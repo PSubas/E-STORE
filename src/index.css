@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    font-family: "Raleway", sans-serif;
+    font-size: 62.5%;
+    line-height: 2.4rem;
+}
