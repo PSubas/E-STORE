@@ -1,16 +1,39 @@
 /* eslint-disable react/prop-types */
-import { FaStar, FaRegStar } from "react-icons/fa";
+import { MdStar, MdStarHalf, MdStarBorder } from "react-icons/md";
 
-const Rating = ({ value }) => {
-    const stars = Array.from({ length: 5 }, (_, index) => {
-        if (index < value) {
-            return <FaStar key={index} className="text-yellow-400 text-xl" />;
-        } else {
-            return <FaRegStar key={index} className="text-gray-300 text-xl" />;
+const StarRating = ({ rating }) => {
+    const renderStars = () => {
+        const filledStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 !== 0;
+
+        let stars = [];
+
+        for (let i = 0; i < filledStars; i++) {
+            stars.push(<MdStar key={i} className="text-yellow-500" />);
         }
-    });
 
-    return <div className="flex">{stars}</div>;
+        if (hasHalfStar) {
+            stars.push(
+                <MdStarHalf key={filledStars} className="text-yellow-500" />
+            );
+        }
+
+        const remainingStars = 5 - stars.length;
+
+        for (let i = 0; i < remainingStars; i++) {
+            stars.push(<MdStarBorder key={i + filledStars + 1} />);
+        }
+
+        return stars;
+    };
+
+    return (
+        <div className="flex text-xl my-4">
+            {renderStars().map((star, index) => (
+                <div key={index}>{star}</div>
+            ))}
+        </div>
+    );
 };
 
-export default Rating;
+export default StarRating;

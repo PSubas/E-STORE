@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Rating from "./Rating";
+
 import { Link } from "react-router-dom";
+import { addItemToCart } from "../redux/Slice/cartSlice";
+import { useDispatch } from "react-redux";
+import StarRating from "./Rating";
 
 const ProductCard = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { dispatch } = useDispatch;
 
     useEffect(() => {
         const getProducts = async () => {
@@ -51,12 +55,12 @@ const ProductCard = () => {
             {loading ? (
                 skeleton
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-5 m-2 sm:m-4 md:m-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 p-4 sm:m-4 md:m-6">
                     {products.map((item) => (
                         <Link to={`/products/${item.id}`} key={item.id}>
                             {" "}
                             <div
-                                className="  shadow-md bg-gray-300 rounded-lg overflow-hidden hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
+                                className="  shadow-md bg-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
                                 key={item.id}>
                                 <div
                                     className="relative"
@@ -72,13 +76,17 @@ const ProductCard = () => {
                                         <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-1">
                                             {item.title}
                                         </h2>
-                                        <Rating value={item.rating} />
+                                        <StarRating rating={item.rating} />
                                     </div>
                                     <div className="flex justify-between items-center mb-16">
                                         <p className="text-gray-600 text-sm sm:text-base">
                                             ${item.price}
                                         </p>
-                                        <button className="cart-btn bg-gradient-to-r from-red-500 via-pink-500 to-blue-500 hover:from-red-600 hover:via-pink-600 hover:to-blue-600 text-white font-bold py-3 px-5 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                                        <button
+                                            className="cart-btn bg-gradient-to-r from-red-500 via-pink-500 to-blue-500 hover:from-red-600 hover:via-pink-600 hover:to-blue-600 text-white font-bold py-3 px-5 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+                                            onClick={() =>
+                                                dispatch(addItemToCart())
+                                            }>
                                             Add to Cart
                                         </button>
                                     </div>
