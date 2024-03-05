@@ -1,13 +1,34 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
 import "./index.css";
-import "@fontsource/raleway"; // Defaults to weight 400
-import "@fontsource/raleway/400.css"; // Specify weight
-import "@fontsource/raleway/400-italic.css"; // Specify weight and style
+import "@fontsource/raleway";
+import "@fontsource/raleway/400.css";
+import "@fontsource/raleway/400-italic.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import RootLayout from "./layout/RootLayout.jsx";
+import AllProducts from "./pages/AllProducts.jsx";
+import ProductDetails from "./pages/ProductDetails.jsx";
+// import HomePage from "./pages/HomePage.jsx";
+
+const myRouter = createBrowserRouter([
+    {
+        path: "/",
+        element: <RootLayout />,
+        children: [
+            {
+                path: "/",
+                element: <AllProducts />,
+            },
+            {
+                path: "/products/:id",
+                element: <ProductDetails />,
+            },
+        ],
+    },
+]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-        <App />
+        <RouterProvider router={myRouter} />
     </React.StrictMode>
 );
